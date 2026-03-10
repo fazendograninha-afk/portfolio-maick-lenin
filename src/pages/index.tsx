@@ -37,8 +37,8 @@ const SKILLS = [
 const CATS = ['Todos', 'Pós-Evento', 'Corporativo', 'Institucional', 'Cultura & Street', 'Mini-Doc', 'Reel', 'Demo Reel', 'Artístico', 'Motion', 'Entrevista']
 
 const TIMELINE = [
-  { period: '2017 – 2023', role: 'Assistente Audiovisual / Editor', org: 'Infolive Brasil', url: 'https://infolivebrasil.com.br/', desc: 'Edição de vídeos pós-evento e after movies. Captação em estúdio com câmeras DSLR. Transmissões ao vivo via Wirecast. Direção de 3 vídeos institucionais. Montagem de eventos presenciais.' },
-  { period: '2020 – presente', role: 'Freelancer — Operador de Câmera', org: '', url: '', desc: 'Trabalhos avulsos de operação de câmera DSLR para eventos, captações e produções externas.' },
+  { period: '2017 – 2023', role: 'Editor / Produtor Audiovisual', org: 'Infolive Brasil', url: 'https://infolivebrasil.com.br/', desc: 'Edição de vídeos pós-evento e after movies dinâmicos. Captação em estúdio com câmeras DSLR. Transmissões ao vivo via Wirecast. Direção de 3 vídeos institucionais. Captação em eventos corporativos e culturais. Montagem de eventos presenciais.' },
+  { period: 'Disponível para', role: 'Freelancer — Operação de Câmera', org: '', url: '', desc: 'Disponível para trabalhos avulsos de operação de câmera em eventos, captações e produções externas. Não possuo câmera própria — atuo com equipamento do cliente ou da produção.' },
   { period: 'Atual', role: 'Assistente Audiovisual', org: 'Farol Santander SP', url: 'https://www.farolsantander.com.br/sp', desc: 'Atuação no espaço cultural Farol Santander São Paulo, apoiando produções audiovisuais e atividades do centro cultural.' },
 ]
 
@@ -149,22 +149,59 @@ export default function Portfolio() {
         </nav>
 
         {/* HERO */}
-        <section className="relative z-10 min-h-screen flex flex-col items-center justify-center px-6 text-center pt-20">
-          <div className={`transition-all duration-1000 ${visible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-8'}`}>
-            <p className="fade-in d1" style={{ fontFamily: 'Share Tech Mono,monospace', fontSize: '11px', letterSpacing: '0.2em', color: gv(0.45), marginBottom: '24px' }}>▸ EDITOR · PRODUTOR AUDIOVISUAL · STREET ARTIST</p>
-            <h1 className="fade-in d2" style={{ fontFamily: 'Orbitron,monospace', fontSize: 'clamp(2.8rem,10vw,7rem)', fontWeight: 900, lineHeight: 1, letterSpacing: '-0.02em', marginBottom: '16px' }}>
-              <span className="text-green-glow">MAICK</span><br />
-              <span style={{ color: 'var(--white)', opacity: 0.9 }}>LENIN</span>
-            </h1>
-            <div className="divider fade-in d3" style={{ width: '128px', margin: '24px auto' }} />
-            <p className="fade-in d4" style={{ color: 'var(--silver)', fontStyle: 'italic', fontWeight: 300, fontSize: '14px', maxWidth: '480px', margin: '0 auto 8px', lineHeight: 1.7 }}>
-              Produtor audiovisual pelo destino. Produtor musical por amor.
-            </p>
-            <p className="fade-in d4" style={{ fontFamily: 'Share Tech Mono,monospace', fontSize: '12px', color: gv(0.45) }}>Street Artist porque sim</p>
-            <div className="fade-in d5" style={{ display: 'flex', flexWrap: 'wrap', alignItems: 'center', justifyContent: 'center', gap: '12px', marginTop: '40px' }}>
-              <a href="#trabalhos" className="btn-cyber btn-cyber-fill">▸ Ver Portfólio</a>
-              <a href="https://open.spotify.com/artist/3rTQYwkDDCHcyBymKC1O1M" target="_blank" rel="noopener noreferrer" className="btn-cyber">♫ Spotify</a>
-              <a href="https://maicknuclear.wixsite.com/online/academicas" target="_blank" rel="noopener noreferrer" className="btn-cyber">🎨 Arte & Literatura</a>
+        <section className="relative z-10 min-h-screen flex flex-col items-center justify-center px-6 pt-20 pb-16">
+          <div className={`transition-all duration-1000 w-full max-w-5xl mx-auto ${visible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-8'}`}>
+            {/* Grid: texto + foto */}
+            <div style={{ display: 'grid', gridTemplateColumns: '1fr auto', gap: '48px', alignItems: 'center' }}>
+              {/* Texto */}
+              <div>
+                <p className="fade-in d1" style={{ fontFamily: 'Share Tech Mono,monospace', fontSize: '11px', letterSpacing: '0.2em', color: gv(0.45), marginBottom: '24px' }}>▸ EDITOR · PRODUTOR AUDIOVISUAL · STREET ARTIST</p>
+                <h1 className="fade-in d2" style={{ fontFamily: 'Orbitron,monospace', fontSize: 'clamp(2.4rem,8vw,6rem)', fontWeight: 900, lineHeight: 1, letterSpacing: '-0.02em', marginBottom: '16px' }}>
+                  <span className="text-green-glow">MAICK</span><br />
+                  <span style={{ color: 'var(--white)', opacity: 0.9 }}>LENIN</span>
+                </h1>
+                <div className="divider fade-in d3" style={{ width: '128px', margin: '24px 0' }} />
+                <p className="fade-in d4" style={{ color: 'var(--silver)', fontStyle: 'italic', fontWeight: 300, fontSize: '14px', marginBottom: '8px', lineHeight: 1.7 }}>
+                  Produtor audiovisual pelo destino. Produtor musical por amor.
+                </p>
+                <p className="fade-in d4" style={{ fontFamily: 'Share Tech Mono,monospace', fontSize: '12px', color: gv(0.45), marginBottom: '40px' }}>Street Artist porque sim</p>
+                <div className="fade-in d5" style={{ display: 'flex', flexWrap: 'wrap', alignItems: 'center', gap: '12px' }}>
+                  <a href="#trabalhos" className="btn-cyber btn-cyber-fill">▸ Ver Portfólio</a>
+                  <a href="https://open.spotify.com/artist/3rTQYwkDDCHcyBymKC1O1M" target="_blank" rel="noopener noreferrer" className="btn-cyber">♫ Spotify</a>
+                  <a href="https://maicknuclear.wixsite.com/online/academicas" target="_blank" rel="noopener noreferrer" className="btn-cyber">🎨 Arte & Literatura</a>
+                </div>
+              </div>
+              {/* Foto */}
+              <div className="fade-in d3 hidden md:block" style={{ position: 'relative', flexShrink: 0 }}>
+                {/* Glow aura */}
+                <div style={{ position: 'absolute', inset: '-20px', borderRadius: '8px', background: 'radial-gradient(ellipse at center, rgba(0,255,136,0.12) 0%, transparent 70%)', pointerEvents: 'none', filter: 'blur(15px)' }} />
+                {/* Corner decorations */}
+                <div style={{ position: 'absolute', top: '-8px', left: '-8px', width: '20px', height: '20px', borderTop: '2px solid rgba(0,255,136,0.6)', borderLeft: '2px solid rgba(0,255,136,0.6)' }} />
+                <div style={{ position: 'absolute', top: '-8px', right: '-8px', width: '20px', height: '20px', borderTop: '2px solid rgba(0,255,136,0.6)', borderRight: '2px solid rgba(0,255,136,0.6)' }} />
+                <div style={{ position: 'absolute', bottom: '-8px', left: '-8px', width: '20px', height: '20px', borderBottom: '2px solid rgba(0,255,136,0.6)', borderLeft: '2px solid rgba(0,255,136,0.6)' }} />
+                <div style={{ position: 'absolute', bottom: '-8px', right: '-8px', width: '20px', height: '20px', borderBottom: '2px solid rgba(0,255,136,0.6)', borderRight: '2px solid rgba(0,255,136,0.6)' }} />
+                {/* Photo */}
+                <img
+                  src="/maick-profile.jpg"
+                  alt="Maick Lenin"
+                  style={{
+                    width: '280px',
+                    height: '380px',
+                    objectFit: 'cover',
+                    objectPosition: 'center top',
+                    borderRadius: '4px',
+                    filter: 'brightness(0.9) contrast(1.1) saturate(0.85)',
+                    border: '1px solid rgba(0,255,136,0.2)',
+                    display: 'block',
+                  }}
+                />
+                {/* Scanline overlay on photo */}
+                <div style={{ position: 'absolute', inset: 0, borderRadius: '4px', background: 'repeating-linear-gradient(0deg, transparent, transparent 3px, rgba(0,0,0,0.06) 3px, rgba(0,0,0,0.06) 4px)', pointerEvents: 'none' }} />
+                {/* Bottom tag */}
+                <div style={{ position: 'absolute', bottom: '12px', left: '12px', right: '12px', padding: '6px 10px', background: 'rgba(2,6,8,0.85)', border: '1px solid rgba(0,255,136,0.2)', backdropFilter: 'blur(4px)' }}>
+                  <p style={{ fontFamily: 'Share Tech Mono,monospace', fontSize: '10px', color: 'rgba(0,255,136,0.6)', letterSpacing: '0.1em' }}>// MAICK LENIN · SÃO PAULO</p>
+                </div>
+              </div>
             </div>
           </div>
           <div style={{ position: 'absolute', bottom: '40px', left: '50%', transform: 'translateX(-50%)', display: 'flex', flexDirection: 'column', alignItems: 'center', gap: '8px' }}>
