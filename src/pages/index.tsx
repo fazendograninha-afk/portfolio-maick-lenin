@@ -2,552 +2,420 @@ import { useState, useEffect, useRef } from 'react'
 import Head from 'next/head'
 import toast, { Toaster } from 'react-hot-toast'
 
-// ── VÍDEOS (extraídos do site Wix) ────────────────────────────────────────────
 const VIDEOS = [
-  {
-    id: 'Ti9berTfKLU', src: 'youtube', duration: '02:01',
-    title: 'Jantar às Cegas',
-    sub: 'Experiência Gastronômica Inesquecível',
-    cat: 'Pós-Evento',
-    desc: 'Edição dinâmica de after movie para evento gastronômico sensorial. Direção de cortes sincronizados com a narrativa do evento.',
-  },
-  {
-    id: 'eWAPtLbaQ-I', src: 'youtube', duration: '01:08',
-    title: 'GM Chevrolet TRACKER',
-    sub: 'Session 2020 — Vídeo Pós-Evento',
-    cat: 'Corporativo',
-    desc: 'Cobertura e edição de vídeo corporativo institucional para evento de lançamento GM Chevrolet.',
-  },
-  {
-    id: 'WuZI1ITh-rk', src: 'youtube', duration: '09:13',
-    title: 'Lowrider Brasil',
-    sub: 'Otra Vida Bike Show 5ª Edição [2024]',
-    cat: 'Cultura & Street',
-    desc: 'Filmagem e edição completa do evento cultural. Registro apaixonado da 5ª edição em Mogi das Cruzes — SP.',
-  },
-  {
-    id: 'ZgXfVAwqCIc', src: 'youtube', duration: '00:37',
-    title: 'Teaser Directions',
-    sub: 'Luciano Diremeier da FORD — Startupi',
-    cat: 'Institucional',
-    desc: 'Teaser para programa institucional com diretor da FORD. Corte preciso para máximo impacto em formato curto.',
-  },
-  {
-    id: 'g4X1x67pbJE', src: 'youtube', duration: '13:24',
-    title: 'Quero ser roteirista',
-    sub: 'Letícia Bulhões — Imprensa Mahon',
-    cat: 'Entrevista',
-    desc: 'Edição de entrevista longa com roteirista Letícia Bulhões. Condução narrativa e ritmo de corte para conteúdo de longa duração.',
-  },
-  {
-    id: 'BtOR2v6G9Xc', src: 'youtube', duration: '03:21',
-    title: 'Um Dia Com DJ Reggi',
-    sub: 'Documentary Style',
-    cat: 'Mini-Doc',
-    desc: 'Registro documental de um dia na rotina do DJ. Edição no estilo cinema-vérité com identidade visual marcante.',
-  },
-  {
-    id: 'OkOcIdo-ok4', src: 'youtube', duration: '00:36',
-    title: 'Vídeo Atualli',
-    sub: 'Reel Institucional',
-    cat: 'Reel',
-    desc: 'Reel institucional finalizado com identidade de marca. Sintetiza a essência da empresa em menos de 40 segundos.',
-  },
-  {
-    id: 'FKeceeRZ-7k', src: 'youtube', duration: '00:20',
-    title: 'Demo Reel',
-    sub: 'Amostra de Trabalhos',
-    cat: 'Reel',
-    desc: 'Demo reel de trabalhos selecionados. Compilação técnica e criativa da produção audiovisual.',
-  },
-  {
-    id: 'lgcR1d1hkbI', src: 'youtube', duration: '00:34',
-    title: 'Vídeo 1',
-    sub: 'Social Media Cut',
-    cat: 'Reel',
-    desc: 'Corte para redes sociais com ritmo dinâmico e linguagem visual contemporânea.',
-  },
-  {
-    id: '2qoSVSW9000', src: 'youtube', duration: '00:30',
-    title: 'Main Women',
-    sub: 'Reel de Conteúdo',
-    cat: 'Reel',
-    desc: 'Peça audiovisual para redes sociais com narrativa visual impactante.',
-  },
-  {
-    id: 'cz_Ah4WxjAI', src: 'youtube', duration: '00:06',
-    title: 'Main Garotas',
-    sub: 'Short Cut',
-    cat: 'Reel',
-    desc: 'Corte rápido com transições criativas para formato short/reels.',
-  },
-  {
-    id: '2xU2UfUbAak', src: 'youtube', duration: '00:05',
-    title: 'Main Anime',
-    sub: 'Motion Cut',
-    cat: 'Motion',
-    desc: 'Corte com identidade visual inspirada em motion design e cultura pop.',
-  },
-  // Vimeo
-  {
-    id: '695957650', src: 'vimeo', duration: '02:01',
-    title: 'DemoReel Infolive',
-    sub: '2020 — Estúdio e Transmissão',
-    cat: 'Demo Reel',
-    desc: 'Demo reel do estúdio Infolive 2020. Compilação de captações em estúdio com câmeras DSLR e transmissões ao vivo via Wirecast.',
-  },
-  {
-    id: '673646596', src: 'vimeo', duration: '03:18',
-    title: 'Eleonora / Marcos Rojo',
-    sub: 'Barbara — Projeto Artístico',
-    cat: 'Artístico',
-    desc: 'Produção de projeto audiovisual artístico. Direção, filmagem e edição com linguagem visual autoral.',
-  },
+  { id: 'Ti9berTfKLU', src: 'youtube', duration: '02:01', title: 'Jantar às Cegas', sub: 'Experiência Gastronômica Inesquecível', cat: 'Pós-Evento', desc: 'Edição dinâmica de after movie para evento gastronômico sensorial.' },
+  { id: 'eWAPtLbaQ-I', src: 'youtube', duration: '01:08', title: 'GM Chevrolet TRACKER', sub: 'Session 2020 — Pós-Evento', cat: 'Corporativo', desc: 'Cobertura e edição de vídeo corporativo para evento de lançamento GM Chevrolet.' },
+  { id: 'WuZI1ITh-rk', src: 'youtube', duration: '09:13', title: 'Lowrider Brasil', sub: 'Otra Vida Bike Show 5ª Ed. [2024]', cat: 'Cultura & Street', desc: 'Filmagem e edição do evento cultural em Mogi das Cruzes — SP.' },
+  { id: 'ZgXfVAwqCIc', src: 'youtube', duration: '00:37', title: 'Teaser Directions', sub: 'Luciano Diremeier da FORD — Startupi', cat: 'Institucional', desc: 'Teaser para programa institucional com diretor da FORD.' },
+  { id: 'g4X1x67pbJE', src: 'youtube', duration: '13:24', title: 'Quero ser roteirista', sub: 'Letícia Bulhões — Imprensa Mahon', cat: 'Entrevista', desc: 'Edição de entrevista longa com condução narrativa precisa.' },
+  { id: 'BtOR2v6G9Xc', src: 'youtube', duration: '03:21', title: 'Um Dia Com DJ Reggi', sub: 'Documentary Style', cat: 'Mini-Doc', desc: 'Registro documental de um dia na rotina do DJ.' },
+  { id: 'OkOcIdo-ok4', src: 'youtube', duration: '00:36', title: 'Vídeo Atualli', sub: 'Reel Institucional', cat: 'Reel', desc: 'Reel institucional com identidade de marca.' },
+  { id: 'FKeceeRZ-7k', src: 'youtube', duration: '00:20', title: 'Demo Reel', sub: 'Amostra de Trabalhos', cat: 'Reel', desc: 'Demo reel de trabalhos selecionados.' },
+  { id: 'lgcR1d1hkbI', src: 'youtube', duration: '00:34', title: 'Vídeo 1', sub: 'Social Media Cut', cat: 'Reel', desc: 'Corte para redes sociais com ritmo dinâmico.' },
+  { id: '2qoSVSW9000', src: 'youtube', duration: '00:30', title: 'Main Women', sub: 'Reel de Conteúdo', cat: 'Reel', desc: 'Peça audiovisual para redes sociais.' },
+  { id: 'cz_Ah4WxjAI', src: 'youtube', duration: '00:06', title: 'Main Garotas', sub: 'Short Cut', cat: 'Reel', desc: 'Corte rápido com transições criativas.' },
+  { id: '2xU2UfUbAak', src: 'youtube', duration: '00:05', title: 'Main Anime', sub: 'Motion Cut', cat: 'Motion', desc: 'Corte com identidade visual inspirada em motion design.' },
+  { id: '695957650', src: 'vimeo', duration: '02:01', title: 'DemoReel Infolive', sub: '2020 — Estúdio & Transmissão', cat: 'Demo Reel', desc: 'Demo reel do estúdio Infolive 2020.' },
+  { id: '673646596', src: 'vimeo', duration: '03:18', title: 'Eleonora / Marcos Rojo', sub: 'Barbara — Projeto Artístico', cat: 'Artístico', desc: 'Projeto audiovisual artístico. Direção, filmagem e edição autoral.' },
 ]
 
 const SKILLS = [
-  { icon: '🎬', label: 'Edição de Vídeo', detail: 'After Movie / Pós-Evento / Institucional' },
-  { icon: '📷', label: 'Captação DSLR', detail: 'Sony ZV-E10 + Gimbal Scorp C' },
-  { icon: '🎬', label: 'Direção', detail: '3 vídeos institucionais dirigidos' },
+  { icon: '🎬', label: 'Edição de Vídeo', detail: 'After Movie · Pós-Evento · Institucional' },
+  { icon: '📷', label: 'Captação DSLR', detail: 'Câmeras DSLR · Operador de Câmera Freelancer' },
+  { icon: '🎥', label: 'Direção', detail: '3 vídeos institucionais dirigidos' },
   { icon: '🔴', label: 'Live Streaming', detail: 'Wirecast — transmissões e lives' },
-  { icon: '🔊', label: 'Masterização de Áudio', detail: 'iZotope — pós-produção de áudio' },
+  { icon: '🔊', label: 'Áudio', detail: 'iZotope · FL Studio — produção musical' },
   { icon: '🎪', label: 'Montagem de Eventos', detail: 'Logística e apoio técnico presencial' },
-  { icon: '📲', label: 'Marketing Digital', detail: 'Formação Diego Davila — Udemy' },
-  { icon: '🤖', label: 'Desenvolvimento com IA', detail: 'Financial Freedom SaaS — Next.js + Groq + Supabase' },
+  { icon: '🤖', label: 'Dev com IA', detail: 'Synkra AIOS + Groq + Claude + Railway' },
+  { icon: '🌐', label: 'Inglês', detail: 'Compreensão forte · Não falante' },
+  { icon: '📲', label: 'Marketing Digital', detail: 'Diego Davila — Udemy' },
+  { icon: '🎓', label: 'IA com Prompting', detail: 'Certificado em andamento — Santander Open Academy' },
+  { icon: '🎨', label: 'Arte Urbana & Música', detail: 'Dub Mariachi — Prod. · Compositor · Letrista · Mix/Master' },
+  { icon: '💡', label: 'Direção de Fotografia', detail: 'Latin American Film Institute (LAFILM)' },
 ]
 
-const CATS = ['Todos', 'Pós-Evento', 'Corporativo', 'Institucional', 'Cultura & Street', 'Mini-Doc', 'Reel', 'Demo Reel', 'Artístico', 'Motion']
+const CATS = ['Todos', 'Pós-Evento', 'Corporativo', 'Institucional', 'Cultura & Street', 'Mini-Doc', 'Reel', 'Demo Reel', 'Artístico', 'Motion', 'Entrevista']
+
+const TIMELINE = [
+  { period: '2017 – 2023', role: 'Assistente Audiovisual / Editor', org: 'Infolive Brasil', url: 'https://infolivebrasil.com.br/', desc: 'Edição de vídeos pós-evento e after movies. Captação em estúdio com câmeras DSLR. Transmissões ao vivo via Wirecast. Direção de 3 vídeos institucionais. Montagem de eventos presenciais.' },
+  { period: '2020 – presente', role: 'Freelancer — Operador de Câmera', org: '', url: '', desc: 'Trabalhos avulsos de operação de câmera DSLR para eventos, captações e produções externas.' },
+  { period: 'Atual', role: 'Assistente Audiovisual', org: 'Farol Santander SP', url: 'https://www.farolsantander.com.br/sp', desc: 'Atuação no espaço cultural Farol Santander São Paulo, apoiando produções audiovisuais e atividades do centro cultural.' },
+]
+
+const FORMACAO = [
+  { label: 'Cinema Total', org: 'Instituto de Cinema', url: 'https://www.institutodecinema.com.br/' },
+  { label: 'Direção de Fotografia', org: 'Latin American Film Institute (LAFILM)', url: 'https://www.instagram.com/lafilmoficial/' },
+  { label: 'Marketing Digital', org: 'Diego Davila — Udemy', url: '' },
+  { label: 'IA com Prompting Responsável', org: 'Santander Open Academy', url: '', badge: 'Em andamento' },
+  { label: 'Prod. Audiovisual EAD (trancado)', org: 'Faculdade Metodista de SBC', url: '' },
+]
 
 export default function Portfolio() {
+  const canvasRef = useRef<HTMLCanvasElement>(null)
   const [activeVideo, setActiveVideo] = useState<typeof VIDEOS[0] | null>(null)
   const [filter, setFilter] = useState('Todos')
   const [chatOpen, setChatOpen] = useState(false)
   const [chatMsg, setChatMsg] = useState('')
-  const [chatHistory, setChatHistory] = useState<{role:'user'|'ai', text:string}[]>([
-    { role: 'ai', text: 'Olá! Sou o assistente do Maick Lenin. Posso falar sobre seus trabalhos, habilidades, disponibilidade e muito mais. Como posso te ajudar? 🎬' }
+  const [chatHistory, setChatHistory] = useState<{ role: 'user' | 'ai'; text: string }[]>([
+    { role: 'ai', text: 'Olá! Sou o assistente do Maick Lenin. Posso falar sobre seus trabalhos, experiências, formação e contatos. Como posso te ajudar? 🎬' }
   ])
   const [chatLoading, setChatLoading] = useState(false)
   const chatEndRef = useRef<HTMLDivElement>(null)
   const [visible, setVisible] = useState(false)
 
+  useEffect(() => {
+    const canvas = canvasRef.current
+    if (!canvas) return
+    const ctx = canvas.getContext('2d')
+    if (!ctx) return
+    const resize = () => { canvas.width = window.innerWidth; canvas.height = window.innerHeight }
+    resize()
+    window.addEventListener('resize', resize)
+    const particles: { x: number; y: number; vx: number; vy: number; size: number; alpha: number; pulse: number }[] = []
+    for (let i = 0; i < 80; i++) {
+      particles.push({ x: Math.random() * window.innerWidth, y: Math.random() * window.innerHeight, vx: (Math.random() - 0.5) * 0.4, vy: (Math.random() - 0.5) * 0.4 - 0.1, size: Math.random() * 2 + 0.5, alpha: Math.random() * 0.6 + 0.1, pulse: Math.random() * Math.PI * 2 })
+    }
+    let animId: number
+    const draw = () => {
+      ctx.clearRect(0, 0, canvas.width, canvas.height)
+      particles.forEach(p => {
+        p.pulse += 0.02
+        const a = p.alpha * (0.7 + 0.3 * Math.sin(p.pulse))
+        ctx.beginPath(); ctx.arc(p.x, p.y, p.size, 0, Math.PI * 2)
+        ctx.fillStyle = `rgba(0,255,136,${a})`; ctx.shadowBlur = 6; ctx.shadowColor = 'rgba(0,255,136,0.5)'; ctx.fill(); ctx.shadowBlur = 0
+        p.x += p.vx; p.y += p.vy
+        if (p.x < 0) p.x = canvas.width; if (p.x > canvas.width) p.x = 0
+        if (p.y < 0) p.y = canvas.height; if (p.y > canvas.height) p.y = 0
+      })
+      for (let i = 0; i < particles.length; i++) {
+        for (let j = i + 1; j < particles.length; j++) {
+          const dx = particles[i].x - particles[j].x; const dy = particles[i].y - particles[j].y
+          const dist = Math.sqrt(dx * dx + dy * dy)
+          if (dist < 100) { ctx.beginPath(); ctx.strokeStyle = `rgba(0,255,136,${0.08 * (1 - dist / 100)})`; ctx.lineWidth = 0.5; ctx.moveTo(particles[i].x, particles[i].y); ctx.lineTo(particles[j].x, particles[j].y); ctx.stroke() }
+        }
+      }
+      animId = requestAnimationFrame(draw)
+    }
+    draw()
+    return () => { cancelAnimationFrame(animId); window.removeEventListener('resize', resize) }
+  }, [])
+
   useEffect(() => { setTimeout(() => setVisible(true), 100) }, [])
   useEffect(() => { chatEndRef.current?.scrollIntoView({ behavior: 'smooth' }) }, [chatHistory])
 
-  const filteredVideos = filter === 'Todos' ? VIDEOS : VIDEOS.filter(v => v.cat === filter)
+  const filtered = filter === 'Todos' ? VIDEOS : VIDEOS.filter(v => v.cat === filter)
 
   const sendChat = async () => {
     if (!chatMsg.trim() || chatLoading) return
-    const userMsg = chatMsg.trim()
-    setChatMsg('')
-    setChatHistory(h => [...h, { role: 'user', text: userMsg }])
-    setChatLoading(true)
+    const userMsg = chatMsg.trim(); setChatMsg(''); setChatHistory(h => [...h, { role: 'user', text: userMsg }]); setChatLoading(true)
     try {
-      const res = await fetch('/api/chat', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ message: userMsg, history: chatHistory }),
-      })
+      const res = await fetch('/api/chat', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ message: userMsg, history: chatHistory }) })
       const data = await res.json()
       setChatHistory(h => [...h, { role: 'ai', text: data.reply }])
-    } catch {
-      setChatHistory(h => [...h, { role: 'ai', text: 'Erro de conexão. Tente novamente.' }])
-    }
+    } catch { setChatHistory(h => [...h, { role: 'ai', text: 'Erro de conexão. Tente novamente.' }]) }
     setChatLoading(false)
   }
 
-  const thumbUrl = (v: typeof VIDEOS[0]) =>
-    v.src === 'youtube'
-      ? `https://i.ytimg.com/vi/${v.id}/mqdefault.jpg`
-      : `https://i.vimeocdn.com/video/${v.id}-d_320x180`
+  const thumb = (v: typeof VIDEOS[0]) => v.src === 'youtube' ? `https://i.ytimg.com/vi/${v.id}/mqdefault.jpg` : `https://i.vimeocdn.com/video/${v.id}-d_320x180`
+  const embed = (v: typeof VIDEOS[0]) => v.src === 'youtube' ? `https://www.youtube.com/embed/${v.id}?autoplay=1&rel=0` : `https://player.vimeo.com/video/${v.id}?autoplay=1`
 
-  const embedUrl = (v: typeof VIDEOS[0]) =>
-    v.src === 'youtube'
-      ? `https://www.youtube.com/embed/${v.id}?autoplay=1&rel=0`
-      : `https://player.vimeo.com/video/${v.id}?autoplay=1`
+  const G = 'rgba(0,255,136,'
+  const gv = (a: number) => `${G}${a})`
 
   return (
     <>
       <Head>
         <title>Maick Lenin — Editor & Produtor Audiovisual</title>
-        <meta name="description" content="Portfolio de Maick Lenin — Editor e Produtor Audiovisual. After movies, institucionais, eventos corporativos." />
+        <meta name="description" content="Portfólio de Maick Lenin — Editor Audiovisual, Produtor Musical, Street Artist." />
         <meta name="viewport" content="width=device-width, initial-scale=1" />
-        <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🎬</text></svg>" />
       </Head>
-
       <div className="relative min-h-screen" style={{ background: 'var(--void)' }}>
-        {/* Stars */}
-        <div className="stars" />
-        {/* Grain */}
-        <div className="grain" />
+        <canvas ref={canvasRef} style={{ position: 'fixed', inset: 0, zIndex: 0, pointerEvents: 'none' }} />
+        <div className="cyber-grid" /><div className="scanlines" /><div className="ambient" />
+        <Toaster position="bottom-right" toastOptions={{ style: { background: '#060f0b', color: '#e8f5ee', border: `1px solid ${gv(0.2)}` } }} />
 
-        {/* Ambient glow */}
-        <div className="fixed inset-0 pointer-events-none z-0"
-          style={{ background: 'radial-gradient(ellipse 60% 40% at 50% 0%, rgba(201,168,76,0.04) 0%, transparent 70%)' }} />
+        {/* NAV */}
+        <nav className="fixed top-0 left-0 right-0 z-50 flex items-center justify-between px-8 py-4"
+          style={{ background: 'rgba(2,6,8,0.88)', backdropFilter: 'blur(20px)', borderBottom: `1px solid ${gv(0.08)}` }}>
+          <span style={{ fontFamily: 'Orbitron,monospace', fontSize: '14px', letterSpacing: '0.15em', color: 'var(--green)', textShadow: '0 0 15px rgba(0,255,136,0.5)' }}>ML</span>
+          <div className="hidden sm:flex items-center gap-6">
+            {['trabalhos', 'sobre', 'trajetória', 'contato'].map(s => (
+              <a key={s} href={`#${s}`} style={{ fontFamily: 'Share Tech Mono,monospace', fontSize: '11px', letterSpacing: '0.2em', color: gv(0.4), textTransform: 'uppercase', textDecoration: 'none', transition: 'color 0.2s' }}
+                onMouseEnter={e => (e.currentTarget.style.color = 'var(--green)')}
+                onMouseLeave={e => (e.currentTarget.style.color = gv(0.4))}>{s}</a>
+            ))}
+          </div>
+          <button onClick={() => setChatOpen(true)} className="btn-cyber" style={{ fontSize: '11px', padding: '8px 16px' }}>// falar comigo</button>
+        </nav>
 
-        <Toaster position="bottom-right" toastOptions={{ style: { background: '#0c0c14', color: '#f4f4f8', border: '1px solid rgba(201,168,76,0.2)' } }} />
-
-        {/* ── HERO ────────────────────────────────────────────────────── */}
-        <section className="relative z-10 min-h-screen flex flex-col items-center justify-center px-6 text-center"
-          style={{ paddingTop: '80px' }}>
-
-          {/* Top nav */}
-          <nav className="fixed top-0 left-0 right-0 z-50 flex items-center justify-between px-8 py-5"
-            style={{ background: 'rgba(2,2,4,0.8)', backdropFilter: 'blur(20px)', borderBottom: '1px solid rgba(201,168,76,0.08)' }}>
-            <span className="font-cinzel text-sm tracking-widest" style={{ color: 'var(--gold)' }}>ML</span>
-            <div className="flex items-center gap-6">
-              {['Trabalhos', 'Sobre', 'Habilidades', 'Contato'].map(item => (
-                <a key={item} href={`#${item.toLowerCase()}`}
-                  className="text-xs tracking-widest uppercase transition-colors hover:text-yellow-400"
-                  style={{ color: 'var(--muted)', fontFamily: 'JetBrains Mono, monospace' }}>
-                  {item}
-                </a>
-              ))}
-            </div>
-            <button onClick={() => setChatOpen(true)}
-              className="btn-contact text-xs py-2 px-4">
-              ✦ Falar comigo
-            </button>
-          </nav>
-
-          {/* Hero content */}
+        {/* HERO */}
+        <section className="relative z-10 min-h-screen flex flex-col items-center justify-center px-6 text-center pt-20">
           <div className={`transition-all duration-1000 ${visible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-8'}`}>
-            <p className="section-num mb-6 fade-in fade-in-1">✦ PRODUTOR AUDIOVISUAL ✦</p>
-
-            <h1 className="font-cinzel fade-in fade-in-2 mb-4"
-              style={{ fontSize: 'clamp(3rem, 10vw, 7rem)', fontWeight: 900, lineHeight: 1, letterSpacing: '-0.02em' }}>
-              <span className="text-gold-shimmer">Maick</span>
-              <br />
-              <span style={{ color: 'var(--white)' }}>Lenin</span>
+            <p className="fade-in d1" style={{ fontFamily: 'Share Tech Mono,monospace', fontSize: '11px', letterSpacing: '0.2em', color: gv(0.45), marginBottom: '24px' }}>▸ EDITOR · PRODUTOR AUDIOVISUAL · STREET ARTIST</p>
+            <h1 className="fade-in d2" style={{ fontFamily: 'Orbitron,monospace', fontSize: 'clamp(2.8rem,10vw,7rem)', fontWeight: 900, lineHeight: 1, letterSpacing: '-0.02em', marginBottom: '16px' }}>
+              <span className="text-green-glow">MAICK</span><br />
+              <span style={{ color: 'var(--white)', opacity: 0.9 }}>LENIN</span>
             </h1>
-
-            <div className="divider w-24 mx-auto my-6 fade-in fade-in-3" />
-
-            <p className="fade-in fade-in-4 max-w-xl mx-auto text-base leading-relaxed"
-              style={{ color: 'var(--silver)', fontStyle: 'italic', fontWeight: 300 }}>
-              Editor & Assistente Audiovisual. Produtor Musical. Street Artist.
-              <br />
-              <span style={{ color: 'var(--gold)', fontSize: '0.9em' }}>Produtor audiovisual pelo destino, musical por amor.</span>
+            <div className="divider fade-in d3" style={{ width: '128px', margin: '24px auto' }} />
+            <p className="fade-in d4" style={{ color: 'var(--silver)', fontStyle: 'italic', fontWeight: 300, fontSize: '14px', maxWidth: '480px', margin: '0 auto 8px', lineHeight: 1.7 }}>
+              Produtor audiovisual pelo destino. Produtor musical por amor.
             </p>
-
-            <div className="fade-in fade-in-5 flex items-center justify-center gap-4 mt-10">
-              <a href="#trabalhos" className="btn-contact btn-contact-fill">Ver Portfólio →</a>
-              <a href="https://open.spotify.com/artist/3rTQYwkDDCHcyBymKC1O1M" target="_blank" rel="noopener noreferrer"
-                className="btn-contact">
-                ♫ Spotify
-              </a>
+            <p className="fade-in d4" style={{ fontFamily: 'Share Tech Mono,monospace', fontSize: '12px', color: gv(0.45) }}>Street Artist porque sim</p>
+            <div className="fade-in d5" style={{ display: 'flex', flexWrap: 'wrap', alignItems: 'center', justifyContent: 'center', gap: '12px', marginTop: '40px' }}>
+              <a href="#trabalhos" className="btn-cyber btn-cyber-fill">▸ Ver Portfólio</a>
+              <a href="https://open.spotify.com/artist/3rTQYwkDDCHcyBymKC1O1M" target="_blank" rel="noopener noreferrer" className="btn-cyber">♫ Spotify</a>
+              <a href="https://maicknuclear.wixsite.com/online/academicas" target="_blank" rel="noopener noreferrer" className="btn-cyber">🎨 Arte & Literatura</a>
             </div>
           </div>
-
-          {/* Scroll indicator */}
-          <div className="absolute bottom-10 left-1/2 -translate-x-1/2 flex flex-col items-center gap-2"
-            style={{ color: 'var(--muted)' }}>
-            <span className="text-xs tracking-widest" style={{ fontFamily: 'JetBrains Mono' }}>SCROLL</span>
-            <div className="w-px h-12" style={{ background: 'linear-gradient(to bottom, rgba(201,168,76,0.4), transparent)' }} />
+          <div style={{ position: 'absolute', bottom: '40px', left: '50%', transform: 'translateX(-50%)', display: 'flex', flexDirection: 'column', alignItems: 'center', gap: '8px' }}>
+            <span style={{ fontFamily: 'Share Tech Mono,monospace', fontSize: '10px', letterSpacing: '0.2em', color: gv(0.25) }}>SCROLL</span>
+            <div style={{ width: '1px', height: '48px', background: 'linear-gradient(to bottom, rgba(0,255,136,0.4), transparent)' }} />
           </div>
         </section>
 
-        {/* ── SOBRE ───────────────────────────────────────────────────── */}
-        <section id="sobre" className="relative z-10 max-w-5xl mx-auto px-6 py-28">
-          <div className="divider mb-16" />
-          <p className="section-num mb-4">01 — SOBRE</p>
-          <div className="grid md:grid-cols-2 gap-16 items-start">
+        {/* SOBRE */}
+        <section id="sobre" className="relative z-10 max-w-5xl mx-auto px-6 py-24">
+          <div className="divider" style={{ marginBottom: '56px' }} />
+          <p className="sec-num" style={{ marginBottom: '12px' }}>// 01 — SOBRE</p>
+          <div className="grid md:grid-cols-2 gap-14 items-start">
             <div>
-              <h2 className="font-cinzel text-4xl font-bold mb-6" style={{ color: 'var(--white)' }}>
-                Técnica, criatividade<br />
-                <span className="text-gold">e impacto visual.</span>
+              <h2 style={{ fontFamily: 'Orbitron,monospace', fontSize: '28px', fontWeight: 700, color: 'var(--white)', lineHeight: 1.3, marginBottom: '24px' }}>
+                Técnica, criatividade<br /><span className="text-green-glow">e impacto visual.</span>
               </h2>
-              <div className="space-y-4 text-sm leading-relaxed" style={{ color: 'var(--silver)', fontWeight: 300 }}>
-                <p>
-                  🎥 <strong style={{ color: 'var(--white)' }}>Editor e Assistente Audiovisual</strong> com experiência
-                  em edição de vídeos, especialmente em <em>after movies</em>, institucionais e conteúdos pós-evento.
+              <div style={{ display: 'flex', flexDirection: 'column', gap: '12px', fontSize: '13px', lineHeight: '1.7', color: 'var(--silver)', fontWeight: 300 }}>
+                <p>🎥 <strong style={{ color: 'var(--white)' }}>Editor e Assistente Audiovisual</strong> — after movies, institucionais e pós-eventos.</p>
+                <p>📷 <strong style={{ color: 'var(--white)' }}>Captação com câmeras DSLR</strong> — estúdio e externas, qualidade técnica e estética.</p>
+                <p>📽️ <strong style={{ color: 'var(--white)' }}>Direção</strong> de 3 vídeos institucionais + captação em eventos corporativos e culturais.</p>
+                <p>🔴 <strong style={{ color: 'var(--white)' }}>Live Streaming</strong> via Wirecast — transmissões e lives em estúdio.</p>
+                <p>🔊 <strong style={{ color: 'var(--white)' }}>Áudio:</strong> masterização com iZotope e produção musical com FL Studio.</p>
+                <p>🌐 <strong style={{ color: 'var(--white)' }}>Inglês:</strong> compreensão forte, leitura e escrita. Não falante.</p>
+                <p>🤖 <strong style={{ color: 'var(--green)' }}>Dev com IA:</strong> criação do SaaS <em>Financial Freedom</em> — 15 agentes de IA financeiros com <strong style={{ color: 'var(--green)' }}>Synkra AIOS + Groq + Claude + Railway</strong>.</p>
+                <p>🎨 Arte urbana, vídeos, música e literatura em{' '}
+                  <a href="https://maicknuclear.wixsite.com/online/academicas" target="_blank" rel="noopener noreferrer" style={{ color: 'var(--green)' }}>maicknuclear.wixsite.com/online</a>
                 </p>
-                <p>
-                  📍 <strong style={{ color: 'var(--white)' }}>Estúdio:</strong> captação de áudio e vídeo com câmeras DSLR,
-                  assegurando qualidade técnica e estética nas produções.
-                </p>
-                <p>
-                  📽️ <strong style={{ color: 'var(--white)' }}>Externas:</strong> direção de vídeos institucionais e captação em eventos corporativos e culturais.
-                  3 vídeos dirigidos.
-                </p>
-                <p>
-                  🔊 Conhecimento em <strong style={{ color: 'var(--white)' }}>masterização de áudio</strong> com iZotope.
-                </p>
-                <p>
-                  🎪 Atuação eventual em <strong style={{ color: 'var(--white)' }}>montagem de eventos presenciais</strong>, com logística e apoio técnico.
-                </p>
-                <p>
-                  🤖 <strong style={{ color: 'var(--gold)' }}>Desenvolvimento com IA:</strong> criação do SaaS
-                  <em> Financial Freedom</em> — plataforma com 15 agentes de IA financeiros, desenvolvida com Next.js, Groq API e Supabase.
-                  Prova de que técnica audiovisual e tecnologia podem coexistir na mesma mente criativa.
+                <p>🎵 Produtor, compositor, letrista e mix/master do{' '}
+                  <a href="https://www.instagram.com/dubmariachi/" target="_blank" rel="noopener noreferrer" style={{ color: 'var(--green)' }}>Dub Mariachi</a> — toda arte visual criada com IA.
                 </p>
               </div>
             </div>
-            <div className="space-y-3">
-              <p className="text-xs tracking-widest mb-5" style={{ color: 'var(--muted)', fontFamily: 'JetBrains Mono' }}>
-                EQUIPAMENTO & STACK
-              </p>
+            <div style={{ display: 'flex', flexDirection: 'column', gap: '8px' }}>
+              <p style={{ fontFamily: 'Share Tech Mono,monospace', fontSize: '11px', color: gv(0.4), letterSpacing: '0.15em', marginBottom: '12px' }}>STACK & FERRAMENTAS</p>
               {[
-                { label: 'Sony ZV-E10 + Gimbal Scorp C', icon: '📷' },
-                { label: 'Adobe Premiere / After Effects', icon: '🎬' },
-                { label: 'iZotope — Masterização de Áudio', icon: '🔊' },
-                { label: 'Wirecast — Live Streaming', icon: '🔴' },
-                { label: 'Next.js + TypeScript + Groq AI', icon: '⚡' },
-                { label: 'Supabase + Railway (Deploy)', icon: '☁️' },
+                { icon: '🤖', label: 'Synkra AIOS + Groq + Claude + Railway' },
+                { icon: '✂️', label: 'Adobe Premiere / After Effects' },
+                { icon: '🎹', label: 'FL Studio — Produção Musical' },
+                { icon: '🔊', label: 'iZotope — Masterização de Áudio' },
+                { icon: '🔴', label: 'Wirecast — Live Streaming' },
+                { icon: '💻', label: 'GitHub + Next.js + TypeScript' },
               ].map(item => (
-                <div key={item.label}
-                  className="flex items-center gap-3 px-4 py-3 rounded"
-                  style={{ background: 'rgba(12,12,20,0.8)', border: '1px solid rgba(201,168,76,0.1)' }}>
-                  <span>{item.icon}</span>
-                  <span className="text-sm" style={{ color: 'var(--silver)' }}>{item.label}</span>
+                <div key={item.label} className="cyber-card" style={{ display: 'flex', alignItems: 'center', gap: '12px', padding: '10px 16px', borderRadius: '4px' }}>
+                  <span>{item.icon}</span><span style={{ fontSize: '13px', color: 'var(--silver)' }}>{item.label}</span>
                 </div>
               ))}
-              <div className="mt-6 p-4 rounded" style={{ background: 'rgba(201,168,76,0.04)', border: '1px solid rgba(201,168,76,0.2)' }}>
-                <p className="text-xs" style={{ color: 'var(--muted)', fontFamily: 'JetBrains Mono' }}>FORMAÇÃO COMPLEMENTAR</p>
-                <p className="text-sm mt-1" style={{ color: 'var(--silver)' }}>📚 Marketing Digital — Diego Davila (Udemy)</p>
+              <div style={{ marginTop: '12px', padding: '16px', borderRadius: '4px', background: gv(0.03), border: `1px solid ${gv(0.15)}` }}>
+                <p style={{ fontFamily: 'Share Tech Mono,monospace', fontSize: '11px', color: gv(0.45), marginBottom: '8px' }}>// SOBRE ESTA PÁGINA</p>
+                <p style={{ fontSize: '12px', lineHeight: '1.6', color: 'var(--silver)' }}>
+                  Criada por mim com IA — <strong style={{ color: 'var(--green)' }}>Claude · Synkra AIOS · GitHub · Groq · Railway</strong> (versão gratuita). Código, design e deploy feitos do zero.
+                </p>
               </div>
             </div>
           </div>
         </section>
 
-        {/* ── HABILIDADES ─────────────────────────────────────────────── */}
-        <section id="habilidades" className="relative z-10 max-w-5xl mx-auto px-6 py-10">
-          <div className="divider mb-16" />
-          <p className="section-num mb-4">02 — HABILIDADES</p>
-          <h2 className="font-cinzel text-3xl font-bold mb-10" style={{ color: 'var(--white)' }}>
-            O que eu <span className="text-gold">domino</span>
+        {/* TRAJETÓRIA */}
+        <section id="trajetória" className="relative z-10 max-w-5xl mx-auto px-6 py-10">
+          <div className="divider" style={{ marginBottom: '56px' }} />
+          <p className="sec-num" style={{ marginBottom: '12px' }}>// 02 — TRAJETÓRIA</p>
+          <h2 style={{ fontFamily: 'Orbitron,monospace', fontSize: '28px', fontWeight: 700, color: 'var(--white)', marginBottom: '40px' }}>
+            Experiência & <span className="text-green-glow">Formação</span>
           </h2>
-          <div className="grid grid-cols-2 md:grid-cols-4 gap-3">
-            {SKILLS.map(skill => (
-              <div key={skill.label}
-                className="p-4 rounded transition-all duration-300 group cursor-default"
-                style={{ background: 'var(--surface)', border: '1px solid rgba(201,168,76,0.1)' }}
-                onMouseEnter={e => {
-                  (e.currentTarget as HTMLDivElement).style.borderColor = 'rgba(201,168,76,0.35)'
-                  ;(e.currentTarget as HTMLDivElement).style.transform = 'translateY(-2px)'
-                }}
-                onMouseLeave={e => {
-                  (e.currentTarget as HTMLDivElement).style.borderColor = 'rgba(201,168,76,0.1)'
-                  ;(e.currentTarget as HTMLDivElement).style.transform = 'translateY(0)'
-                }}>
-                <div className="text-2xl mb-2">{skill.icon}</div>
-                <p className="text-sm font-medium mb-1" style={{ color: 'var(--white)' }}>{skill.label}</p>
-                <p className="text-xs leading-relaxed" style={{ color: 'var(--muted)' }}>{skill.detail}</p>
-                {skill.label === 'Desenvolvimento com IA' && (
-                  <span className="inline-block mt-2 text-xs px-2 py-0.5 rounded"
-                    style={{ background: 'rgba(201,168,76,0.12)', color: 'var(--gold)', fontFamily: 'JetBrains Mono' }}>
-                    AI-Powered
-                  </span>
-                )}
+          <div style={{ display: 'flex', flexDirection: 'column', gap: '24px', marginBottom: '48px' }}>
+            {TIMELINE.map((item, i) => (
+              <div key={i} style={{ display: 'flex', gap: '20px' }}>
+                <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
+                  <div style={{ width: '10px', height: '10px', borderRadius: '50%', background: 'var(--green)', boxShadow: '0 0 10px rgba(0,255,136,0.6)', flexShrink: 0, marginTop: '4px' }} />
+                  {i < TIMELINE.length - 1 && <div style={{ width: '1px', flex: 1, marginTop: '8px', background: 'linear-gradient(to bottom, rgba(0,255,136,0.3), rgba(0,255,136,0.05))' }} />}
+                </div>
+                <div className="cyber-card" style={{ borderRadius: '4px', padding: '16px', flex: 1, marginBottom: '8px' }}>
+                  <p style={{ fontFamily: 'Share Tech Mono,monospace', fontSize: '11px', color: gv(0.45), marginBottom: '4px' }}>{item.period}</p>
+                  <p style={{ fontFamily: 'Orbitron,monospace', fontSize: '13px', fontWeight: 700, color: 'var(--white)', marginBottom: '2px' }}>{item.role}</p>
+                  {item.url ? (
+                    <a href={item.url} target="_blank" rel="noopener noreferrer" style={{ fontSize: '12px', color: 'var(--green)', display: 'block', marginBottom: '8px' }}>{item.org}</a>
+                  ) : item.org ? (
+                    <p style={{ fontSize: '12px', color: 'var(--green)', marginBottom: '8px' }}>{item.org}</p>
+                  ) : null}
+                  <p style={{ fontSize: '12px', lineHeight: '1.6', color: 'var(--silver)' }}>{item.desc}</p>
+                </div>
+              </div>
+            ))}
+          </div>
+          <p style={{ fontFamily: 'Share Tech Mono,monospace', fontSize: '11px', color: gv(0.4), letterSpacing: '0.15em', marginBottom: '16px' }}>FORMAÇÃO & CURSOS</p>
+          <div className="grid sm:grid-cols-2 gap-3">
+            {FORMACAO.map((f, i) => (
+              <div key={i} className="cyber-card" style={{ borderRadius: '4px', padding: '16px', display: 'flex', alignItems: 'flex-start', gap: '12px' }}>
+                <span style={{ color: 'var(--green)', fontSize: '16px', flexShrink: 0 }}>◈</span>
+                <div>
+                  <p style={{ fontSize: '13px', fontWeight: 500, color: 'var(--white)', marginBottom: '4px' }}>
+                    {f.label}
+                    {f.badge && <span style={{ marginLeft: '8px', fontSize: '10px', padding: '2px 8px', borderRadius: '2px', background: gv(0.1), color: 'var(--green)', fontFamily: 'Share Tech Mono,monospace' }}>{f.badge}</span>}
+                  </p>
+                  {f.url ? (
+                    <a href={f.url} target="_blank" rel="noopener noreferrer" style={{ fontSize: '11px', color: gv(0.45) }}>{f.org}</a>
+                  ) : (
+                    <p style={{ fontSize: '11px', color: gv(0.4) }}>{f.org}</p>
+                  )}
+                </div>
               </div>
             ))}
           </div>
         </section>
 
-        {/* ── TRABALHOS ───────────────────────────────────────────────── */}
-        <section id="trabalhos" className="relative z-10 max-w-6xl mx-auto px-6 py-24">
-          <div className="divider mb-16" />
-          <p className="section-num mb-4">03 — TRABALHOS</p>
-          <h2 className="font-cinzel text-3xl font-bold mb-3" style={{ color: 'var(--white)' }}>
-            Acervo <span className="text-gold">audiovisual</span>
+        {/* HABILIDADES */}
+        <section className="relative z-10 max-w-5xl mx-auto px-6 py-10">
+          <div className="divider" style={{ marginBottom: '56px' }} />
+          <p className="sec-num" style={{ marginBottom: '12px' }}>// 03 — HABILIDADES</p>
+          <h2 style={{ fontFamily: 'Orbitron,monospace', fontSize: '28px', fontWeight: 700, color: 'var(--white)', marginBottom: '40px' }}>
+            No que posso <span className="text-green-glow">agregar</span>
           </h2>
-          <p className="text-sm mb-10" style={{ color: 'var(--muted)' }}>
-            Todos os vídeos foram editados por mim. Alguns dirigi e filmei.
-          </p>
+          <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-3">
+            {SKILLS.map(skill => (
+              <div key={skill.label} className="cyber-card" style={{ borderRadius: '4px', padding: '16px' }}>
+                <div style={{ fontSize: '22px', marginBottom: '8px' }}>{skill.icon}</div>
+                <p style={{ fontSize: '13px', fontWeight: 500, color: 'var(--white)', marginBottom: '4px' }}>{skill.label}</p>
+                <p style={{ fontSize: '11px', lineHeight: '1.5', color: gv(0.4) }}>{skill.detail}</p>
+              </div>
+            ))}
+          </div>
+        </section>
 
-          {/* Filter */}
-          <div className="flex flex-wrap gap-2 mb-10">
+        {/* TRABALHOS */}
+        <section id="trabalhos" className="relative z-10 max-w-6xl mx-auto px-6 py-24">
+          <div className="divider" style={{ marginBottom: '56px' }} />
+          <p className="sec-num" style={{ marginBottom: '12px' }}>// 04 — TRABALHOS</p>
+          <h2 style={{ fontFamily: 'Orbitron,monospace', fontSize: '28px', fontWeight: 700, color: 'var(--white)', marginBottom: '8px' }}>
+            Acervo <span className="text-green-glow">audiovisual</span>
+          </h2>
+          <p style={{ fontFamily: 'Share Tech Mono,monospace', fontSize: '12px', color: gv(0.35), marginBottom: '32px' }}>
+            // todos os vídeos editados por mim. alguns dirigi e filmei.
+          </p>
+          <div style={{ display: 'flex', flexWrap: 'wrap', gap: '8px', marginBottom: '40px' }}>
             {CATS.map(cat => (
-              <button key={cat} onClick={() => setFilter(cat)}
-                className="skill-badge transition-all"
-                style={{
-                  background: filter === cat ? 'rgba(201,168,76,0.15)' : 'rgba(201,168,76,0.04)',
-                  borderColor: filter === cat ? 'rgba(201,168,76,0.5)' : 'rgba(201,168,76,0.15)',
-                  color: filter === cat ? 'var(--gold-bright)' : 'rgba(201,168,76,0.6)',
-                }}>
+              <button key={cat} onClick={() => setFilter(cat)} className="skill-tag"
+                style={{ background: filter === cat ? gv(0.12) : gv(0.03), borderColor: filter === cat ? gv(0.5) : gv(0.15), color: filter === cat ? 'var(--green)' : gv(0.5), boxShadow: filter === cat ? `0 0 10px ${gv(0.1)}` : 'none' }}>
                 {cat}
               </button>
             ))}
           </div>
-
-          {/* Grid */}
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
-            {filteredVideos.map(video => (
-              <div key={video.id + video.src}
-                className="video-card rounded cursor-pointer"
-                onClick={() => setActiveVideo(video)}>
-                {/* Thumbnail */}
-                <div className="relative overflow-hidden" style={{ aspectRatio: '16/9' }}>
-                  <img
-                    src={thumbUrl(video)}
-                    alt={video.title}
-                    className="w-full h-full object-cover transition-transform duration-500"
-                    style={{ filter: 'brightness(0.7)' }}
+            {filtered.map(video => (
+              <div key={video.id + video.src} className="video-card" style={{ borderRadius: '4px' }} onClick={() => setActiveVideo(video)}>
+                <div style={{ position: 'relative', overflow: 'hidden', aspectRatio: '16/9' }}>
+                  <img src={thumb(video)} alt={video.title} style={{ width: '100%', height: '100%', objectFit: 'cover', filter: 'brightness(0.65) saturate(0.8)', transition: 'transform 0.5s' }}
                     onMouseEnter={e => (e.currentTarget.style.transform = 'scale(1.05)')}
-                    onMouseLeave={e => (e.currentTarget.style.transform = 'scale(1)')}
-                  />
-                  {/* Play button */}
-                  <div className="absolute inset-0 flex items-center justify-center">
-                    <div className="w-12 h-12 rounded-full flex items-center justify-center transition-all duration-300"
-                      style={{ background: 'rgba(201,168,76,0.15)', border: '2px solid rgba(201,168,76,0.5)', backdropFilter: 'blur(4px)' }}
-                      onMouseEnter={e => {
-                        (e.currentTarget as HTMLDivElement).style.background = 'rgba(201,168,76,0.35)'
-                        ;(e.currentTarget as HTMLDivElement).style.transform = 'scale(1.1)'
-                      }}
-                      onMouseLeave={e => {
-                        (e.currentTarget as HTMLDivElement).style.background = 'rgba(201,168,76,0.15)'
-                        ;(e.currentTarget as HTMLDivElement).style.transform = 'scale(1)'
-                      }}>
-                      <span style={{ color: 'var(--gold)', fontSize: '18px', marginLeft: '3px' }}>▶</span>
+                    onMouseLeave={e => (e.currentTarget.style.transform = 'scale(1)')} />
+                  <div style={{ position: 'absolute', inset: 0, display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+                    <div style={{ width: '48px', height: '48px', borderRadius: '50%', display: 'flex', alignItems: 'center', justifyContent: 'center', background: gv(0.12), border: `2px solid ${gv(0.5)}`, backdropFilter: 'blur(4px)' }}>
+                      <span style={{ color: 'var(--green)', fontSize: '18px', marginLeft: '3px' }}>▶</span>
                     </div>
                   </div>
-                  {/* Duration */}
-                  <span className="absolute bottom-2 right-2 text-xs px-2 py-0.5 rounded"
-                    style={{ background: 'rgba(2,2,4,0.85)', color: 'var(--white)', fontFamily: 'JetBrains Mono' }}>
-                    {video.duration}
-                  </span>
-                  {/* Category */}
-                  <span className="absolute top-2 left-2 text-xs px-2 py-0.5 rounded"
-                    style={{ background: 'rgba(201,168,76,0.2)', color: 'var(--gold)', fontFamily: 'JetBrains Mono', backdropFilter: 'blur(4px)' }}>
-                    {video.cat}
-                  </span>
+                  <span style={{ position: 'absolute', bottom: '8px', right: '8px', fontSize: '11px', padding: '2px 8px', borderRadius: '2px', background: 'rgba(2,6,8,0.9)', color: 'var(--white)', fontFamily: 'Share Tech Mono,monospace' }}>{video.duration}</span>
+                  <span style={{ position: 'absolute', top: '8px', left: '8px', fontSize: '11px', padding: '2px 8px', borderRadius: '2px', background: gv(0.15), color: 'var(--green)', backdropFilter: 'blur(4px)', fontFamily: 'Share Tech Mono,monospace' }}>{video.cat}</span>
                 </div>
-                {/* Info */}
-                <div className="p-4">
-                  <h3 className="font-cinzel font-bold text-sm mb-0.5" style={{ color: 'var(--white)' }}>{video.title}</h3>
-                  <p className="text-xs mb-2" style={{ color: 'var(--muted)' }}>{video.sub}</p>
-                  <p className="text-xs leading-relaxed" style={{ color: 'rgba(200,200,212,0.5)' }}>{video.desc}</p>
+                <div style={{ padding: '16px' }}>
+                  <h3 style={{ fontFamily: 'Orbitron,monospace', fontWeight: 700, fontSize: '13px', color: 'var(--white)', marginBottom: '4px' }}>{video.title}</h3>
+                  <p style={{ fontFamily: 'Share Tech Mono,monospace', fontSize: '11px', color: gv(0.45), marginBottom: '8px' }}>{video.sub}</p>
+                  <p style={{ fontSize: '11px', lineHeight: '1.5', color: 'rgba(168,196,176,0.5)' }}>{video.desc}</p>
                 </div>
               </div>
             ))}
           </div>
         </section>
 
-        {/* ── CONTATO ─────────────────────────────────────────────────── */}
-        <section id="contato" className="relative z-10 max-w-5xl mx-auto px-6 py-24 text-center">
-          <div className="divider mb-16" />
-          <p className="section-num mb-4">04 — CONTATO</p>
-          <h2 className="font-cinzel text-4xl font-bold mb-4" style={{ color: 'var(--white)' }}>
-            Vamos criar<br /><span className="text-gold">algo juntos?</span>
+        {/* CONTATO */}
+        <section id="contato" className="relative z-10 max-w-4xl mx-auto px-6 py-24 text-center">
+          <div className="divider" style={{ marginBottom: '56px' }} />
+          <p className="sec-num" style={{ marginBottom: '12px' }}>// 05 — CONTATO</p>
+          <h2 style={{ fontFamily: 'Orbitron,monospace', fontSize: 'clamp(1.8rem,5vw,3rem)', fontWeight: 700, color: 'var(--white)', marginBottom: '16px' }}>
+            Vamos criar<br /><span className="text-green-glow">algo juntos?</span>
           </h2>
-          <p className="text-sm mb-10 max-w-md mx-auto" style={{ color: 'var(--muted)', fontWeight: 300 }}>
+          <p style={{ fontSize: '14px', color: 'var(--silver)', fontWeight: 300, maxWidth: '400px', margin: '0 auto 40px' }}>
             Aberto a projetos em produtoras, agências, empresas e freelas.
-            100% aberto ao aprendizado e novos desafios.
           </p>
-          <div className="flex flex-col sm:flex-row items-center justify-center gap-4">
-            <a href="https://instagram.com/dubmariachi" target="_blank" rel="noopener noreferrer"
-              className="btn-contact btn-contact-fill">
-              📸 @dubmariachi — Instagram
-            </a>
-            <button onClick={() => setChatOpen(true)} className="btn-contact">
-              🤖 Falar com meu Assistente IA
-            </button>
+          <div style={{ display: 'flex', flexWrap: 'wrap', alignItems: 'center', justifyContent: 'center', gap: '12px', marginBottom: '16px' }}>
+            <a href="https://instagram.com/dubmariachi" target="_blank" rel="noopener noreferrer" className="btn-cyber btn-cyber-fill">📸 @dubmariachi</a>
+            <a href="mailto:maicknuclear@gmail.com" className="btn-cyber">✉️ maicknuclear@gmail.com</a>
+            <a href="https://wa.me/5511917252805" target="_blank" rel="noopener noreferrer" className="btn-cyber">💬 (11) 91725-2805</a>
           </div>
-
-          {/* AI badge */}
-          <div className="inline-flex items-center gap-3 mt-16 px-6 py-3 rounded"
-            style={{ background: 'rgba(201,168,76,0.04)', border: '1px solid rgba(201,168,76,0.15)' }}>
-            <span style={{ color: 'var(--gold)' }}>⚡</span>
-            <span className="text-xs" style={{ color: 'var(--muted)', fontFamily: 'JetBrains Mono' }}>
-              Este site + Financial Freedom SaaS — desenvolvidos com IA por MaicknucleaR
+          <button onClick={() => setChatOpen(true)} className="btn-cyber" style={{ margin: '0 auto' }}>
+            🤖 Assistente IA — pergunte sobre meu trabalho
+          </button>
+          <div style={{ display: 'inline-flex', alignItems: 'center', gap: '12px', marginTop: '56px', padding: '12px 24px', borderRadius: '4px', background: gv(0.03), border: `1px solid ${gv(0.1)}` }}>
+            <span style={{ color: 'var(--green)' }}>⚡</span>
+            <span style={{ fontFamily: 'Share Tech Mono,monospace', fontSize: '11px', color: gv(0.35) }}>
+              Site criado por mim com IA: Claude · Synkra AIOS · GitHub · Groq · Railway
             </span>
           </div>
         </section>
 
-        {/* ── FOOTER ──────────────────────────────────────────────────── */}
-        <footer className="relative z-10 border-t px-6 py-8 text-center"
-          style={{ borderColor: 'rgba(201,168,76,0.1)' }}>
-          <p className="font-cinzel text-xs tracking-widest mb-2" style={{ color: 'var(--gold)' }}>MAICK LENIN</p>
-          <p className="text-xs" style={{ color: 'var(--muted)', fontFamily: 'JetBrains Mono' }}>
-            Editor & Produtor Audiovisual · Portfolio © {new Date().getFullYear()}
-          </p>
-          <a href="https://maicknuclear.wixsite.com/online" target="_blank" rel="noopener noreferrer"
-            className="text-xs mt-2 inline-block hover:underline" style={{ color: 'rgba(201,168,76,0.4)' }}>
-            by MaicknucleaR
-          </a>
+        {/* FOOTER */}
+        <footer className="relative z-10 text-center px-6 py-8" style={{ borderTop: `1px solid ${gv(0.08)}` }}>
+          <p style={{ fontFamily: 'Orbitron,monospace', fontSize: '12px', letterSpacing: '0.15em', color: 'var(--green)', marginBottom: '4px' }}>MAICK LENIN</p>
+          <p style={{ fontFamily: 'Share Tech Mono,monospace', fontSize: '11px', color: gv(0.25) }}>Editor & Produtor Audiovisual · © {new Date().getFullYear()}</p>
+          <a href="https://maicknuclear.wixsite.com/online" target="_blank" rel="noopener noreferrer" style={{ fontFamily: 'Share Tech Mono,monospace', fontSize: '11px', color: gv(0.18), display: 'inline-block', marginTop: '8px' }}>by MaicknucleaR</a>
         </footer>
       </div>
 
-      {/* ── VIDEO MODAL ─────────────────────────────────────────────── */}
+      {/* VIDEO MODAL */}
       {activeVideo && (
         <div className="modal-overlay" onClick={() => setActiveVideo(null)}>
-          <div className="relative w-full max-w-4xl mx-4" onClick={e => e.stopPropagation()}>
-            <button
-              onClick={() => setActiveVideo(null)}
-              className="absolute -top-10 right-0 text-sm transition-colors"
-              style={{ color: 'var(--muted)', fontFamily: 'JetBrains Mono' }}>
-              ESC / FECHAR ✕
-            </button>
-            <div className="relative w-full rounded overflow-hidden"
-              style={{ aspectRatio: '16/9', background: '#000', border: '1px solid rgba(201,168,76,0.2)' }}>
-              <iframe
-                src={embedUrl(activeVideo)}
-                className="w-full h-full"
-                allow="autoplay; fullscreen"
-                allowFullScreen />
+          <div style={{ position: 'relative', width: '100%', maxWidth: '896px', margin: '0 16px' }} onClick={e => e.stopPropagation()}>
+            <button onClick={() => setActiveVideo(null)} style={{ position: 'absolute', top: '-36px', right: 0, fontFamily: 'Share Tech Mono,monospace', fontSize: '12px', color: gv(0.4), background: 'none', border: 'none', cursor: 'pointer' }}>ESC / FECHAR ✕</button>
+            <div style={{ position: 'relative', width: '100%', aspectRatio: '16/9', background: '#000', border: `1px solid ${gv(0.2)}`, borderRadius: '4px', overflow: 'hidden' }}>
+              <iframe src={embed(activeVideo)} style={{ width: '100%', height: '100%' }} allow="autoplay; fullscreen" allowFullScreen />
             </div>
-            <div className="mt-4 px-1">
-              <h3 className="font-cinzel font-bold text-lg" style={{ color: 'var(--white)' }}>{activeVideo.title}</h3>
-              <p className="text-sm mt-1" style={{ color: 'var(--muted)' }}>{activeVideo.sub}</p>
-              <p className="text-xs mt-2 leading-relaxed" style={{ color: 'rgba(200,200,212,0.5)' }}>{activeVideo.desc}</p>
+            <div style={{ marginTop: '16px', paddingLeft: '4px' }}>
+              <h3 style={{ fontFamily: 'Orbitron,monospace', fontWeight: 700, fontSize: '18px', color: 'var(--white)' }}>{activeVideo.title}</h3>
+              <p style={{ fontFamily: 'Share Tech Mono,monospace', fontSize: '12px', color: 'var(--green)', marginTop: '4px' }}>{activeVideo.sub}</p>
+              <p style={{ fontSize: '12px', lineHeight: '1.6', color: 'rgba(168,196,176,0.55)', marginTop: '8px' }}>{activeVideo.desc}</p>
             </div>
           </div>
         </div>
       )}
 
-      {/* ── CHAT IA ─────────────────────────────────────────────────── */}
+      {/* CHAT IA */}
       {chatOpen && (
-        <div className="fixed inset-0 z-50 flex items-end sm:items-center justify-center p-4"
-          style={{ background: 'rgba(2,2,4,0.7)', backdropFilter: 'blur(6px)' }}>
-          <div className="w-full max-w-md rounded-lg overflow-hidden"
-            style={{ background: 'var(--surface)', border: '1px solid rgba(201,168,76,0.2)', maxHeight: '80vh', display: 'flex', flexDirection: 'column' }}>
-            {/* Header */}
-            <div className="flex items-center justify-between px-5 py-4"
-              style={{ borderBottom: '1px solid rgba(201,168,76,0.1)', background: 'rgba(201,168,76,0.04)' }}>
+        <div style={{ position: 'fixed', inset: 0, zIndex: 50, display: 'flex', alignItems: 'flex-end', justifyContent: 'center', padding: '16px', background: 'rgba(2,6,8,0.75)', backdropFilter: 'blur(8px)' }}
+          onClick={() => setChatOpen(false)}>
+          <div style={{ width: '100%', maxWidth: '448px', borderRadius: '4px', background: 'var(--surface)', border: `1px solid ${gv(0.2)}`, maxHeight: '80vh', display: 'flex', flexDirection: 'column', boxShadow: `0 0 40px ${gv(0.08)}` }}
+            onClick={e => e.stopPropagation()}>
+            <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', padding: '16px 20px', borderBottom: `1px solid ${gv(0.1)}`, background: gv(0.03) }}>
               <div>
-                <p className="font-cinzel text-sm font-bold" style={{ color: 'var(--gold)' }}>Assistente IA — Maick Lenin</p>
-                <p className="text-xs" style={{ color: 'var(--muted)', fontFamily: 'JetBrains Mono' }}>Powered by Groq</p>
+                <p style={{ fontFamily: 'Orbitron,monospace', fontSize: '14px', fontWeight: 700, color: 'var(--green)' }}>Assistente IA</p>
+                <p style={{ fontFamily: 'Share Tech Mono,monospace', fontSize: '11px', color: gv(0.35) }}>Maick Lenin · Groq powered</p>
               </div>
-              <button onClick={() => setChatOpen(false)} style={{ color: 'var(--muted)' }}>✕</button>
+              <button onClick={() => setChatOpen(false)} style={{ color: gv(0.4), background: 'none', border: 'none', cursor: 'pointer', fontSize: '16px' }}>✕</button>
             </div>
-            {/* Messages */}
-            <div className="flex-1 overflow-y-auto p-4 space-y-3" style={{ minHeight: '300px' }}>
+            <div style={{ flex: 1, overflowY: 'auto', padding: '16px', display: 'flex', flexDirection: 'column', gap: '12px', minHeight: '280px' }}>
               {chatHistory.map((msg, i) => (
-                <div key={i} className={`flex ${msg.role === 'user' ? 'justify-end' : 'justify-start'}`}>
-                  <div className="max-w-xs px-4 py-2.5 rounded text-sm leading-relaxed"
-                    style={{
-                      background: msg.role === 'user' ? 'rgba(201,168,76,0.12)' : 'rgba(255,255,255,0.04)',
-                      border: `1px solid ${msg.role === 'user' ? 'rgba(201,168,76,0.25)' : 'rgba(255,255,255,0.06)'}`,
-                      color: msg.role === 'user' ? 'var(--gold-bright)' : 'var(--silver)',
-                    }}>
+                <div key={i} style={{ display: 'flex', justifyContent: msg.role === 'user' ? 'flex-end' : 'flex-start' }}>
+                  <div style={{ maxWidth: '280px', padding: '10px 16px', borderRadius: '4px', fontSize: '13px', lineHeight: '1.5', background: msg.role === 'user' ? gv(0.1) : 'rgba(255,255,255,0.03)', border: `1px solid ${msg.role === 'user' ? gv(0.25) : gv(0.06)}`, color: msg.role === 'user' ? 'var(--green)' : 'var(--silver)', fontFamily: msg.role === 'user' ? 'Share Tech Mono,monospace' : 'DM Sans,sans-serif' }}>
                     {msg.text}
                   </div>
                 </div>
               ))}
               {chatLoading && (
-                <div className="flex justify-start">
-                  <div className="px-4 py-2.5 rounded text-sm" style={{ background: 'rgba(255,255,255,0.04)', color: 'var(--muted)' }}>
-                    <span className="cursor-line">Digitando</span>
-                  </div>
+                <div style={{ display: 'flex', justifyContent: 'flex-start' }}>
+                  <div className="blink" style={{ padding: '10px 16px', borderRadius: '4px', fontSize: '13px', fontFamily: 'Share Tech Mono,monospace', background: gv(0.03), color: gv(0.4), border: `1px solid ${gv(0.06)}` }}>processando</div>
                 </div>
               )}
               <div ref={chatEndRef} />
             </div>
-            {/* Input */}
-            <div className="p-4" style={{ borderTop: '1px solid rgba(201,168,76,0.1)' }}>
-              <div className="flex gap-2">
-                <input
-                  value={chatMsg}
-                  onChange={e => setChatMsg(e.target.value)}
-                  onKeyDown={e => e.key === 'Enter' && sendChat()}
-                  placeholder="Pergunte sobre os trabalhos, disponibilidade..."
-                  className="flex-1 px-3 py-2.5 rounded text-sm outline-none"
-                  style={{ background: 'rgba(255,255,255,0.04)', border: '1px solid rgba(201,168,76,0.15)', color: 'var(--white)' }}
-                />
-                <button onClick={sendChat} disabled={chatLoading}
-                  className="px-4 py-2.5 rounded text-sm font-medium transition-all disabled:opacity-40"
-                  style={{ background: 'linear-gradient(135deg, #c9a84c, #a07830)', color: '#0a0a0a' }}>
-                  ↑
-                </button>
+            <div style={{ padding: '16px', borderTop: `1px solid ${gv(0.1)}` }}>
+              <div style={{ display: 'flex', gap: '8px' }}>
+                <input value={chatMsg} onChange={e => setChatMsg(e.target.value)} onKeyDown={e => e.key === 'Enter' && sendChat()}
+                  placeholder="// pergunte sobre os trabalhos..."
+                  className="chat-input" style={{ flex: 1, padding: '10px 12px', borderRadius: '4px' }} />
+                <button onClick={sendChat} disabled={chatLoading} className="btn-cyber" style={{ padding: '10px 16px', fontSize: '16px', opacity: chatLoading ? 0.4 : 1 }}>↑</button>
               </div>
             </div>
           </div>

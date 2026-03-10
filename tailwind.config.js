@@ -4,8 +4,8 @@ module.exports = {
   theme: {
     extend: {
       fontFamily: {
-        cinzel: ['Cinzel', 'serif'],
-        mono: ['JetBrains Mono', 'monospace'],
+        orbitron: ['Orbitron', 'monospace'],
+        mono: ['Share Tech Mono', 'monospace'],
         body: ['DM Sans', 'sans-serif'],
       },
     },
