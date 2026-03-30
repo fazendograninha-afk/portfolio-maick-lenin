@@ -419,6 +419,19 @@ footer{position:relative;z-index:10;text-align:center;padding:28px 32px;border-t
       </div>
       <a href="https://review-machine-public.vercel.app/login" target="_blank" class="ialink" style="opacity:.7">▸ Ver preview</a>
     </div>
+    <div class="iacard" style="position:relative">
+      <div style="position:absolute;top:12px;right:12px;font-family:'Share Tech Mono',monospace;font-size:9px;padding:2px 8px;background:rgba(255,200,0,.08);border:1px solid rgba(255,200,0,.25);color:rgba(255,200,0,.6)">BETA</div>
+      <p class="iatag">▸ AUDIOVISUAL · FLUXO DE SINAL</p>
+      <p class="iatitle">AV Assist</p>
+      <p class="iadesc">Assistente que mapeia o caminho do sinal de vídeo entre reuniões online e apresentações em auditório. Ajuda operadores AV a entender e solucionar o fluxo técnico em eventos híbridos.</p>
+      <div class="iastack">
+        <span class="iastk">Vercel</span>
+        <span class="iastk">IA Conversacional</span>
+        <span class="iastk">AV Técnico</span>
+        <span class="iastk">Eventos Híbridos</span>
+      </div>
+      <a href="https://av-assist-by-maicknuclear.vercel.app/" target="_blank" class="ialink" style="opacity:.7">▸ Ver beta</a>
+    </div>
   </div>
 </div></section>
 
